@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mawrid – Local Supply Network</title>
+<link rel="icon" type="image/png" href="/logo-icon.png"><link rel="apple-touch-icon" href="/logo-icon.png"><meta name="theme-color" content="#0E6B58">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Schibsted+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EBF0EE;--card:#fff;--ink:#12231F;--mut:#5B6B66;--pri:#0E6B58;--onp:#fff;--acc:#E3A400;--bad:#B3402F;--ok:#1E7A3C;--line:#D3DDD9;--soft:#E3F0EC;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0D1715;--card:#16231F;--ink:#E6EFEC;--mut:#93A59F;--pri:#3DBA9C;--onp:#06201A;--acc:#F0BB2E;--bad:#E8806F;--ok:#5CCB82;--line:#2A3B36;--soft:#1B2E29;color-scheme:dark}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 'Schibsted Grotesk',system-ui,sans-serif}
+h1,h2,h3{font-family:'Bricolage Grotesque',system-ui,sans-serif;margin:0;line-height:1.1}
+h1{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:1.6rem}h3{font-size:1.1rem}
+.wrap{max-width:1100px;margin:0 auto;padding:20px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:10px 20px}
+.logo{font:800 1.4rem 'Bricolage Grotesque',sans-serif;color:var(--pri);display:flex;align-items:center;gap:8px}
+.logo i{width:30px;height:30px;background:var(--pri);color:var(--onp);border-radius:7px;display:grid;place-items:center;font-style:normal;font-size:1rem}
+nav{display:flex;gap:4px;flex-wrap:wrap;flex:1}
+button,.btn{font:inherit;font-weight:500;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:7px 13px}
+button:hover{border-color:var(--pri)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--acc);outline-offset:1px}
+button.on{background:var(--soft);border-color:var(--pri);color:var(--pri)}
+button.p{background:var(--pri);color:var(--onp);border-color:var(--pri)}
+button.d{color:var(--bad);border-color:var(--bad)}
+button:disabled{opacity:.45;cursor:not-allowed}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+label{display:block;font-size:.85rem;color:var(--mut);margin:10px 0 3px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.mut{color:var(--mut);font-size:.9rem}
+.pr{font:800 1.5rem 'Bricolage Grotesque',sans-serif;color:var(--pri);margin:8px 0}.pr small{font:400 .8rem 'Schibsted Grotesk';color:var(--mut)}
+.g{background:var(--acc);color:#1a1300;border-radius:6px;padding:1px 8px;font-size:.78rem;font-weight:700}
+.p.out{opacity:.6}
+.filters{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin:16px 0}
+.pill{border-radius:20px;padding:2px 11px;font-size:.8rem;font-weight:700;background:var(--soft);color:var(--pri)}
+.pill.CANCELLED{background:#f6dcd7;color:#8e2c1d}.pill.DELIVERED{background:#d4efdc;color:#17612f}
+.tbl{width:100%;border-collapse:collapse;font-size:.92rem}
+.tbl th,.tbl td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+.scroll{overflow-x:auto}
+.hero{display:grid;gap:28px;grid-template-columns:1.2fr 1fr;align-items:start;padding-top:20px}
+@media(max-width:800px){.hero{grid-template-columns:1fr}}
+.tiers{display:flex;gap:8px;margin:12px 0}
+.tier{flex:1;border:2px solid var(--line);border-radius:10px;padding:8px;text-align:center;font-size:.85rem}
+.tier.act{border-color:var(--acc);background:var(--soft)}
+.tier b{display:block;font:800 1.2rem 'Bricolage Grotesque',sans-serif}
+input[type=range]{padding:0;accent-color:var(--pri)}
+.tl{border-left:3px solid var(--line);margin:8px 0 0 6px;padding-left:12px;font-size:.85rem;color:var(--mut)}
+.tl div{margin:3px 0}
+.tl b{color:var(--ink)}
+#modal{position:fixed;inset:0;background:#000a;display:none;place-items:center;padding:16px;z-index:20;overflow:auto}
+#modal.show{display:grid}
+#modal .card{width:min(760px,100%);max-height:92vh;overflow:auto}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,40px);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:10px;opacity:0;pointer-events:none;transition:.2s;z-index:30;max-width:90%}
+#toast.show{opacity:1;transform:translate(-50%,0)}#toast.bad{background:var(--bad);color:#fff}
+.brand{display:block;height:120px;max-width:100%;object-fit:contain;background:#fff;border-radius:14px;padding:6px 16px}
+.logo img{display:block}
+footer{color:var(--mut);font-size:.8rem;text-align:center;padding:24px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body>
+<div id="app"></div><div id="modal" onclick="if(event.target==this)closeM()"></div><div id="toast" role="status"></div>
+<script>
+const $=s=>document.querySelector(s),money=n=>Number(n).toFixed(2);
+const E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const cap=r=>r[0]+r.slice(1).toLowerCase(),when=t=>String(t||'').replace('T',' ').slice(0,16);
+let tok=null,me=null,v='',cart=[],ui={f:{},ed:null,list:[],offers:[],cats:[],all:[]};
+try{const s=JSON.parse(sessionStorage.getItem('mw'));if(s){tok=s.tok;me=s.me}}catch(e){}
+async function api(m,p,b){
+ const r=await fetch('/api'+p,{method:m,headers:{'Content-Type':'application/json',...(tok?{Authorization:'Bearer '+tok}:{})},body:b?JSON.stringify(b):undefined});
+ let j={};try{j=await r.json()}catch(e){}
+ if(!r.ok){if(r.status==401&&tok){logout(true)}throw j.error||'Request failed ('+r.status+')'}return j}
+async function T(f){try{return await f()}catch(e){toast(typeof e=='string'?e:'Cannot reach the server. Is it running?',1)}}
+function toast(m,bad){const t=$('#toast');t.textContent=m;t.className='show'+(bad?' bad':'');clearTimeout(toast.t);toast.t=setTimeout(()=>t.className='',3600)}
+const TR={PLACED:{CONFIRMED:'S',CANCELLED:'BS'},CONFIRMED:{PROCESSING:'S',CANCELLED:'B'},PROCESSING:{SHIPPED:'S'},SHIPPED:{DELIVERED:'S'}};
+const LBL={CONFIRMED:'Accept order',PROCESSING:'Start processing',SHIPPED:'Mark as shipped',DELIVERED:'Mark as delivered'};
+const price=(p,q)=>{const t=p.tiers.find(t=>q>=t.min_qty&&(t.max_qty==null||q<=t.max_qty));return t?t.unit_price:p.base_price};
+const tierTxt=p=>p.tiers.map(t=>t.min_qty+(t.max_qty?'–'+t.max_qty:'+')+': '+t.unit_price).join('<br>')||'Base price only';
+
+async function login(email,pw){const j=await api('POST','/login',{email,password:pw});tok=j.token;me={id:j.userId,name:j.name,role:j.role};
+ try{sessionStorage.setItem('mw',JSON.stringify({tok,me}))}catch(e){}
+ await go(({ADMIN:'users',SUPPLIER:'prods'})[me.role]||'cat')}
+async function register(){await api('POST','/register',{name:$('#rn').value,email:$('#re').value,password:$('#rp').value,role:$('#rr').value});toast('Account created. You can log in now.')}
+function logout(quiet){if(tok&&!quiet)api('POST','/logout').catch(()=>{});tok=me=null;cart=[];v='';try{sessionStorage.removeItem('mw')}catch(e){}R()}
+async function go(x){v=x;await R()}
+
+async function R(){
+ if(!me){$('#app').innerHTML=landing()+'<footer>Mawrid. CSC 305 project, Imam Abdulrahman Bin Faisal University.</footer>';demo(60);return}
+ if(!v)v=({ADMIN:'users',SUPPLIER:'prods'})[me.role]||'cat';
+ const r=me.role,tabs=r=='ADMIN'?[['users','Users'],['cats','Categories'],['orders','All orders']]:r=='SUPPLIER'?[['prods','My products'],['orders','Incoming orders']]:[['cat','Catalog'],['cart','Cart ('+cart.length+')'],['orders','My orders']];
+ $('#app').innerHTML=`<header><div class="wrap"><img class="brand" src="/logo-full.png" alt="Mawrid: Local Supply Network and B2B/B2C Platform"><nav>${tabs.map(([k,l])=>`<button class="${v==k?'on':''}" onclick="go('${k}')">${l}</button>`).join('')}</nav><span class="mut">${E(me.name)} (${cap(r)})</span><button onclick="logout()">Log out</button></div></header><main class="wrap" id="main"><p class="mut">Loading…</p></main>`;
+ await T(()=>({cat:catV,cart:cartV,orders:ordersV,prods:prodsV,users:usersV,cats:catsV})[v]())}
+
+function landing(){return`<div class="wrap"><div class="logo"><img src="/logo-icon.png" alt="" width="34" height="34">Mawrid</div><div class="hero"><div>
+<h1>Buy straight from the local supplier.</h1><p style="max-width:46ch;font-size:1.1rem">Compare suppliers, see the price drop as your quantity grows, and track every order from placed to delivered.</p>
+<div class="card" style="margin-top:20px"><h3>Try the bulk price</h3><label for="dq">Quantity: <b id="dqv"></b></label><input id="dq" type="range" min="1" max="300" value="60" oninput="demo(this.value)">
+<div class="tiers" id="dt"></div><div class="row"><span class="mut">Unit price</span><b id="du"></b></div><div class="row"><span class="mut">Total</span><b id="dtot"></b></div></div></div>
+<div class="card"><h2>Log in</h2><label for="le">Email</label><input id="le" type="email" autocomplete="username"><label for="lp">Password</label><input id="lp" type="password" autocomplete="current-password" onkeydown="if(event.key=='Enter')T(()=>login($('#le').value,$('#lp').value))">
+<p><button class="p" onclick="T(()=>login($('#le').value,$('#lp').value))">Log in</button></p>
+<p class="mut">Demo accounts (seeded on first start):</p><div class="row" style="justify-content:flex-start">${[['Admin','admin@mawrid.sa','admin1234'],['Supplier','najd@mawrid.sa','demo1234'],['Merchant','noor@mawrid.sa','demo1234'],['Consumer','sara@mawrid.sa','demo1234']].map(a=>`<button onclick="T(()=>login('${a[1]}','${a[2]}'))">${a[0]}</button>`).join('')}</div>
+<h3 style="margin-top:22px">Create an account</h3><label for="rn">Full name</label><input id="rn"><label for="re">Email</label><input id="re" type="email"><label for="rp">Password (6+ characters)</label><input id="rp" type="password">
+<label for="rr">I am a</label><select id="rr"><option value="SUPPLIER">Supplier</option><option value="MERCHANT">Merchant</option><option value="CONSUMER">Consumer</option></select><p><button onclick="T(register)">Register</button></p></div></div></div>`}
+function demo(q){q=+q;const t=[[1,49,10],[50,199,9],[200,null,8]],a=t.find(x=>q>=x[0]&&(x[1]==null||q<=x[1]));
+ $('#dqv').textContent=q;$('#du').textContent=money(a[2])+' SAR';$('#dtot').textContent=money(a[2]*q)+' SAR';
+ $('#dt').innerHTML=t.map(x=>`<div class="tier ${x==a?'act':''}">${x[0]}${x[1]?'–'+x[1]:'+'}<b>${x[2]}</b></div>`).join('')}
+
+// ---- Catalog ----
+async function catV(){ui.cats=await api('GET','/categories');ui.all=await api('GET','/products');
+ const sup=[...new Map(ui.all.map(p=>[p.supplier_id,p.supplier]))];
+ $('#main').innerHTML=`<h2>Catalog</h2><div class="filters"><input placeholder="Search by name" aria-label="Search" oninput="setF('q',this.value)">
+<select aria-label="Category" onchange="setF('category',this.value)"><option value="">All categories</option>${ui.cats.map(c=>`<option value="${c.category_id}">${E(c.name)}</option>`).join('')}</select>
+<select aria-label="Supplier" onchange="setF('supplier',this.value)"><option value="">All suppliers</option>${sup.map(([id,n])=>`<option value="${id}">${E(n)}</option>`).join('')}</select>
+<select aria-label="Quality" onchange="setF('quality',this.value)"><option value="">Any quality</option><option>A</option><option>B</option><option>C</option></select>
+<input type="number" min="0" placeholder="Max price" aria-label="Max price" oninput="setF('max',this.value)"></div><div class="grid" id="list"></div>`;ui.f={};drawList(ui.all)}
+function setF(k,x){ui.f[k]=x;clearTimeout(ui.t);ui.t=setTimeout(()=>T(()=>drawList()),250)}
+async function drawList(L){if(!L){const q=Object.entries(ui.f).filter(e=>e[1]!=='').map(e=>e[0]+'='+encodeURIComponent(e[1])).join('&');L=await api('GET','/products'+(q?'?'+q:''))}
+ ui.list=L;$('#list').innerHTML=L.map(p=>{const o=p.stock_qty<1,lo=Math.min(p.base_price,...p.tiers.map(t=>t.unit_price));return`<article class="card p ${o?'out':''}"><div class="row"><span class="g">Grade ${p.quality_grade}</span><span class="mut">${E(p.category)}</span></div><h3 style="margin-top:8px">${E(p.name)}</h3><div class="mut">${E(p.supplier)}</div><div class="pr">${money(lo)} <small>SAR per unit${p.tiers.length>1?' at best tier':''}</small></div><div class="row"><span class="mut">${o?'Unavailable, out of stock':p.stock_qty+' in stock'}</span><button class="p" onclick="T(()=>openP(${p.product_id}))" ${o?'disabled':''}>View and order</button></div></article>`}).join('')||'<p class="mut">No products match. Clear a filter to see more.</p>'}
+async function openP(id){const p=ui.list.find(x=>x.product_id==id),m=me.role=='MERCHANT';
+ ui.offers=m?await api('GET','/products/compare?key='+encodeURIComponent(p.product_key)):[p];
+ $('#modal').innerHTML=`<div class="card"><div class="row"><h2>${E(p.name)}</h2><button onclick="closeM()">Close</button></div><p class="mut">${m?(ui.offers.length>1?'Compare '+ui.offers.length+' suppliers side by side.':'Only one supplier offers this product.'):'Sold by '+E(p.supplier)}</p>
+ <label for="mq">Quantity</label><input id="mq" type="number" min="1" value="1" oninput="qchg()" style="max-width:160px"><div class="scroll"><table class="tbl"><tr><th>Supplier</th><th>Grade</th><th>Stock</th><th>Price tiers</th><th>Unit</th><th>Total</th><th></th></tr>
+ ${ui.offers.map(o=>`<tr data-o="${o.product_id}"><td>${E(o.supplier)}</td><td>${o.quality_grade}</td><td>${o.stock_qty}</td><td>${tierTxt(o)}</td><td class="u"></td><td class="t"></td><td><button class="p" onclick="addCart(${o.product_id})">Add to cart</button></td></tr>`).join('')}</table></div><p class="mut">The server recalculates the final price when you place the order.</p></div>`;
+ $('#modal').classList.add('show');qchg()}
+function qchg(){const q=Math.max(1,parseInt($('#mq').value)||1);document.querySelectorAll('#modal tr[data-o]').forEach(r=>{const p=ui.offers.find(o=>o.product_id==r.dataset.o),u=price(p,q);r.querySelector('.u').textContent=money(u);r.querySelector('.t').textContent=money(u*q)})}
+const closeM=()=>$('#modal').classList.remove('show');
+function addCart(id){const q=Math.max(1,parseInt($('#mq').value)||1),p=ui.offers.find(o=>o.product_id==id),l=cart.find(l=>l.p.product_id==id);
+ if(q+(l?l.q:0)>p.stock_qty)return toast('Only '+p.stock_qty+' in stock',1);l?l.q+=q:cart.push({p,q});closeM();toast('Added to cart');R()}
+
+// ---- Cart and checkout ----
+function cartV(){const M=$('#main');if(!cart.length){M.innerHTML='<h2>Cart</h2><p class="mut">Your cart is empty. Open the catalog to add products.</p>';return}
+ let tot=0;const rows=cart.map((l,i)=>{const u=price(l.p,l.q);tot+=u*l.q;return`<tr><td>${E(l.p.name)}<div class="mut">${E(l.p.supplier)}</div></td><td><input type="number" min="1" value="${l.q}" style="width:90px" aria-label="Quantity" onchange="cart[${i}].q=Math.max(1,parseInt(this.value)||1);R()"></td><td>${money(u)}</td><td>${money(u*l.q)}</td><td><button class="d" onclick="cart.splice(${i},1);R()">Remove</button></td></tr>`}).join('');
+ M.innerHTML=`<h2>Cart</h2><div class="card scroll"><table class="tbl"><tr><th>Product</th><th>Qty</th><th>Unit</th><th>Total</th><th></th></tr>${rows}</table><p class="row"><b>Estimated total</b><b class="pr" style="margin:0">${money(tot)} SAR</b></p>
+ <label for="addr">Delivery address</label><textarea id="addr" rows="2"></textarea><p class="mut">Prices lock when the order is placed. Payment and delivery happen directly with each supplier.</p><button class="p" onclick="T(placeOrder)">Place order</button></div>`}
+async function placeOrder(){const j=await api('POST','/orders',{address:$('#addr').value,items:cart.map(l=>({productId:l.p.product_id,qty:l.q}))});
+ cart=[];toast('Order placed. Stock deducted ('+j.orderIds.length+' order'+(j.orderIds.length>1?'s':'')+').');await go('orders')}
+
+// ---- Orders ----
+async function ordersV(){const r=me.role;$('#main').innerHTML='<h2>'+(r=='SUPPLIER'?'Incoming orders':r=='ADMIN'?'All orders':'My orders')+'</h2><div id="ol"></div>';await drawOrders()}
+async function drawOrders(){const L=await api('GET','/orders'),r=me.role;
+ $('#ol').innerHTML=L.map(o=>{const a=TR[o.status]||{};
+ const btn=Object.keys(a).filter(to=>r=='SUPPLIER'?a[to].includes('S'):r!='ADMIN'&&a[to].includes('B')).map(to=>to=='CANCELLED'?`<button class="d" onclick="T(()=>setStatus(${o.order_id},'CANCELLED'))">${r=='SUPPLIER'?'Reject order':'Cancel order'}</button>`:`<button class="p" onclick="T(()=>setStatus(${o.order_id},'${to}'))">${LBL[to]}</button>`).join(' ');
+ return`<div class="card" style="margin-bottom:12px"><div class="row"><h3>Order #${o.order_id}</h3><span class="pill ${o.status}">${o.status}</span></div><div class="mut">${r!='CONSUMER'&&r!='MERCHANT'?'Buyer: '+E(o.buyer)+'. ':''}${r!='SUPPLIER'?'Supplier: '+E(o.supplier)+'. ':''}Deliver to ${E(o.delivery_address)}</div>
+ <ul>${o.items.map(i=>`<li>${i.quantity} × ${E(i.name)} at ${money(i.unit_price_locked)} = ${money(i.line_total)} SAR</li>`).join('')}</ul><b>Total ${money(o.total_amount)} SAR</b>
+ <div class="tl">${o.history.map(h=>`<div><b>${h.to_status}</b> by ${E(h.actor)}, ${when(h.changed_at)}</div>`).join('')}</div><p>${btn}</p></div>`}).join('')||'<p class="mut">No orders yet.</p>'}
+async function setStatus(id,to){await api('PUT','/orders/'+id+'/status',{status:to});await drawOrders()}
+setInterval(()=>{if(me&&v=='orders'&&$('#ol')&&!document.activeElement?.closest('button'))drawOrders().catch(()=>{})},8000);
+
+// ---- Supplier products ----
+const tiersToTxt=p=>(p.tiers||[]).map(t=>t.min_qty+(t.max_qty==null?'+':'-'+t.max_qty)+':'+t.unit_price).join('; ');
+function parseTiers(s){return s.split(/[;\n]+/).map(x=>x.trim()).filter(Boolean).map(x=>{const m=x.match(/^(\d+)\s*(?:-\s*(\d+)|\+)\s*:\s*([\d.]+)$/);if(!m)throw'Bad tier "'+x+'". Write it like 1-49:10; 50+:9';return{minQty:+m[1],maxQty:m[2]?+m[2]:null,unitPrice:+m[3]}})}
+async function prodsV(){const [L,cats]=await Promise.all([api('GET','/supplier/products'),api('GET','/categories')]);ui.mine=L;ui.cats=cats;
+ const e=ui.ed&&L.find(p=>p.product_id==ui.ed)||{name:'',product_key:'',base_price:'',quality_grade:'A',stock_qty:'',category_id:cats[0]?.category_id,tiers:[]};
+ $('#main').innerHTML=`<h2>My products</h2><div class="card scroll"><table class="tbl"><tr><th>Product</th><th>Base</th><th>Stock</th><th>Tiers</th><th></th></tr>${L.map(p=>`<tr><td>${E(p.name)} (${p.quality_grade})</td><td>${money(p.base_price)}</td><td>${p.stock_qty}</td><td>${E(tiersToTxt(p))}</td><td><button onclick="ui.ed=${p.product_id};R()">Edit</button> <button class="d" onclick="T(()=>delProd(${p.product_id}))">Delete</button></td></tr>`).join('')||'<tr><td colspan=5 class="mut">No products yet. Add your first one below.</td></tr>'}</table></div>
+ <div class="card" style="margin-top:14px"><h3>${ui.ed?'Edit product':'Add a product'}</h3><div class="filters"><div><label for="pn">Name</label><input id="pn" value="${E(e.name)}"></div><div><label for="pk">Comparison key (same key = comparable product)</label><input id="pk" value="${E(e.product_key)}"></div>
+ <div><label for="pc">Category</label><select id="pc">${cats.map(c=>`<option value="${c.category_id}" ${c.category_id==e.category_id?'selected':''}>${E(c.name)}</option>`).join('')}</select></div><div><label for="pb">Base price (SAR)</label><input id="pb" type="number" step="0.01" value="${e.base_price}"></div>
+ <div><label for="pg">Quality grade</label><select id="pg">${['A','B','C'].map(g=>`<option ${g==e.quality_grade?'selected':''}>${g}</option>`).join('')}</select></div><div><label for="ps">Stock</label><input id="ps" type="number" value="${e.stock_qty}"></div></div>
+ <label for="pt">Price tiers: from-to:price, separated by semicolons. The last tier can be open, like 200+:8</label><input id="pt" value="${E(tiersToTxt(e))}">
+ <p><button class="p" onclick="T(saveProd)">Save product</button> ${ui.ed?'<button onclick="ui.ed=null;R()">Cancel</button>':''}</p></div>`}
+async function saveProd(){const b={name:$('#pn').value,productKey:$('#pk').value,categoryId:+$('#pc').value,basePrice:$('#pb').value,qualityGrade:$('#pg').value,stockQty:$('#ps').value,tiers:parseTiers($('#pt').value)};
+ await api(ui.ed?'PUT':'POST','/supplier/products'+(ui.ed?'/'+ui.ed:''),b);ui.ed=null;toast('Product saved');await R()}
+async function delProd(id){await api('DELETE','/supplier/products/'+id);await R()}
+
+// ---- Admin ----
+async function usersV(){const L=await api('GET','/admin/users');
+ $('#main').innerHTML=`<h2>Users</h2><div class="card scroll"><table class="tbl"><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th></th></tr>${L.map(u=>`<tr><td>${E(u.full_name)}</td><td>${E(u.email)}</td><td>${cap(u.role)}</td><td><span class="pill">${u.status}</span></td><td>${u.role=='ADMIN'?'':['ACTIVE','SUSPENDED','DELETED'].filter(s=>s!=u.status).map(s=>`<button onclick="T(()=>setUser(${u.user_id},'${s}'))">${s=='ACTIVE'?'Activate':s=='SUSPENDED'?'Suspend':'Delete'}</button>`).join(' ')}</td></tr>`).join('')}</table></div>`}
+async function setUser(id,s){await api('PUT','/admin/users/'+id+'/status',{status:s});await R()}
+async function catsV(){const L=await api('GET','/categories');
+ $('#main').innerHTML=`<h2>Categories</h2><div class="card"><div class="row" style="justify-content:flex-start"><input id="cn" placeholder="New category name" style="max-width:300px" aria-label="Category name"><button class="p" onclick="T(addCat)">Add category</button></div>
+<table class="tbl">${L.map(c=>`<tr><td>${E(c.name)}</td><td><button class="d" onclick="T(()=>delCat(${c.category_id}))">Delete</button></td></tr>`).join('')}</table><p class="mut">A category that still has products cannot be deleted.</p></div>`}
+async function addCat(){await api('POST','/admin/categories',{name:$('#cn').value});await R()}
+async function delCat(id){await api('DELETE','/admin/categories/'+id);toast('Category deleted');await R()}
+R();
+</script></body></html>
